@@ -1,11 +1,23 @@
 <h1><%= @place["name"] %></h1>
 
 <h2>My Entries</h2>
-<% for entry in @entries %>
-  <h3><%= entry["title"] %></h3>
-  <h4><%= entry["occurred_on"] %></h4>
-  <p><%= entry["description"] %></p>
-<% end %>
+<div class="row">
+  <% @entries.each do |entry| %>
+    <div class="col-sm-6 col-md-3"> 
+      <h3><%= entry["title"] %></h3>
+      <h4><%= entry["occurred_on"] %></h4>
+      <p><%= entry["description"] %></p>
+
+      <% if entry.image.attached? %>
+        <%# Use Active Storage URL for the attached image %>
+        <img src="<%= url_for(entry.image) %>" class="img-fluid">
+      <% else %>
+        <%# Default image if no upload exists %>
+        <img src="/default-placeholder.png" class="img-fluid">
+      <% end %>
+    </div>
+  <% end %>
+</div>
 
 <p>
   <a href="/entries/new?place_id=<%= @place["id"] %>">New Entry</a>
@@ -14,3 +26,6 @@
 <p>
   <a href="/places">Back to All Places</a>
 </p>
+
+
+
